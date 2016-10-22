@@ -10,7 +10,6 @@ import { Router, Route, browserHistory } from 'react-router';
 import Data from './Data'
 import DataMiddleware from './DataMiddleware'
 
-window.base_url = "";
 let store =  createStore(reducer, applyMiddleware(DataMiddleware));
 let data = new Data;
 var savedData = data.loadData();
