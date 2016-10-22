@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 
 class ActionHistoryList extends React.Component {
 	goBack() {
-		this.props.router.push('/');
+		this.props.router.push(window.base_url + '/');
 	}
 	clearHistory() {
 		this.props.dispatch({type: "CLEAR_HISTORY"});

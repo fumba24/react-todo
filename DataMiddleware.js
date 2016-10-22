@@ -1,7 +1,6 @@
 const DataMiddleware  = store => next => action => {
 	let result = next(action)
 	if (action.type != "LOAD_INITIAL_DATA") {
-		console.log("saved");
 		setCookie("state", JSON.stringify(store.getState()), 10);
 	}
 	return result

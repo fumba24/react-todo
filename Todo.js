@@ -21,7 +21,7 @@ class Todo extends React.Component {
                 <div className={this.props.finished}>
                     <label onClick={this.changeTodoState.bind(this)} >{this.props.item.text}</label>
                     <span className="todo-buttons pull-right">
-                     	<Link to={'/todos/' + this.props.item.id}><button className="btn" style={editButtonStype}>Edit</button></Link>
+                     	<Link to={window.base_url + '/todos/' + this.props.item.id}><button className="btn" style={editButtonStype}>Edit</button></Link>
                      	<button onClick={this.deleteTodo.bind(this)} className="btn">Delete</button>
                      </span>
                 </div>

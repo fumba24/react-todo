@@ -20,7 +20,7 @@ class NewTodo extends React.Component {
 					currentTodo = todo;
 				}
 			});
-			if (currentTodo == null) this.props.router.push('/');
+			if (currentTodo == null) this.props.router.push(window.base_url + '/');
 			else this.todo = currentTodo;
 		}
 	}
@@ -35,19 +35,19 @@ class NewTodo extends React.Component {
 		const todo = {...this.todo, text: this.refs.addTodo.value};
 		this.props.dispatch({type: "SAVE_TODO", text: todo.text, id: todo.id});
 		this.props.dispatch({type: "ADD_HISTORY", text: "Update Todo text", description: todo.text});
-		this.props.router.push('/');
+		this.props.router.push(window.base_url + '/');
 	}
 	addTodo() {
 		const todo = {...this.todo, text: this.refs.addTodo.value};
 		this.props.dispatch({type: "CREATE_TODO", text: todo.text});
 		this.props.dispatch({type: "ADD_HISTORY", text: "Add Todo", description: todo.text});
-		this.props.router.push('/');
+		this.props.router.push(window.base_url + '/');
 	}
 	onKeyPressInput(e) {
 		if (e.key === 'Enter') this.executeButton();
 	}
 	goBack() {
-		this.props.router.push('/');
+		this.props.router.push(window.base_url + '/');
 	}
 	render() {
 		return (

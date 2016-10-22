@@ -19,8 +19,8 @@ class TodoList extends React.Component {
 			<div>
 		        <h1>Todos</h1>
 		        	<span>
-		        	<Link to="/new">New Todo</Link>
-		        	<Link  className="pull-right" to="/history">Action history</Link></span>         
+		        	<Link to={window.base_url + "/new"}>New Todo</Link>
+		        	<Link  className="pull-right" to={window.base_url + "/history"}>Action history</Link></span>         
 	                <hr/>
 	                <ul id="sortable" className="list-unstyled">
 		            	{todoComponents}    
