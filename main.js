@@ -1,6 +1,7 @@
+/*Main entry point for react*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.jsx';
+import App from './App';
 import NewTodo from './NewTodo';
 import ActionHistoryList from './ActionHistoryList';
 import { Provider } from 'react-redux';
@@ -10,12 +11,16 @@ import { Router, Route, browserHistory } from 'react-router';
 import Data from './Data'
 import DataMiddleware from './DataMiddleware'
 
+//Load store from reducers and middlewares
 let store =  createStore(reducer, applyMiddleware(DataMiddleware));
+//load initial Data
 let data = new Data;
 var savedData = data.loadData();
+//Dispatch initial data
 if (savedData != false) store.dispatch({type: "LOAD_INITIAL_DATA", data: savedData});
-ReactDOM.render(
 
+//Render React
+ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path={window.base_url + "/"} component={App}/>

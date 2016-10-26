@@ -1,19 +1,24 @@
+/*ActionHistoryList component*/
 import React from 'react';
 import ActionHistory from './ActionHistory'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 
 class ActionHistoryList extends React.Component {
+	//Retrun to base url
 	goBack() {
 		this.props.router.push(window.base_url + '/');
 	}
+	//Clear history
 	clearHistory() {
 		this.props.dispatch({type: "CLEAR_HISTORY"});
 	}
 	render() {
+		//create array of ActionHistory components from array of Action history
 		var actionComponent = this.props.historyList.map(function(action)  {
 			return <ActionHistory key={action.id} action={action}/>
 		});
+		//Inline style for clear button
 		var clearButtonStype = {
 			marginRight: '10px'
 		}

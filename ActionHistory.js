@@ -1,5 +1,7 @@
+/*ActionHistory component*/
 import React from 'react'
 
+//update Date function to add rendering from timestamp to dd/mm/yyyy
 Date.prototype.ddmmyyyy = function() {
   var mm = this.getMonth() + 1; // getMonth() is zero-based
   var dd = this.getDate();

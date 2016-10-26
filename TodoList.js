@@ -1,3 +1,4 @@
+/*TodoList component*/
 import React from "react";
 import Todo from './Todo';
 import { connect } from 'react-redux';
@@ -5,11 +6,15 @@ import { Link } from 'react-router';
 
 class TodoList extends React.Component {
 	render() {
+		//create array of Todo components from array of todos
+		//and calculate how many todos are left
 		var todoComponents;
 		var todoLeft = 0;
 		if (this.props.todos != undefined) {
 			todoComponents = this.props.todos.todos.map(function(todo) {
+				//Set css class if todo is finished
 				var finished = (todo.finished)? "checked" : "";
+				//count unfinished todos
 				if (!todo.finished) todoLeft++;
 				return <Todo finished={finished} key={todo.id} item={todo}/>
 			});

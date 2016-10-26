@@ -1,3 +1,4 @@
+/*middleware for saving state to cookie*/
 const DataMiddleware  = store => next => action => {
 	let result = next(action)
 	if (action.type != "LOAD_INITIAL_DATA") {
@@ -6,6 +7,7 @@ const DataMiddleware  = store => next => action => {
 	return result
 }
 
+//Set cookie according to cookie name, value and expiry date
 function setCookie(cname, cvalue, exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays*24*60*60*1000));

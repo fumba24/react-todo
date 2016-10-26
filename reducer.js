@@ -1,11 +1,14 @@
+//Set initial state if no state is loaded
 var initialState = {
 	todos: [],
 	history: []
 }
 
+//Reducer function for Redux
 function reducer(state = initialState, action) {
 
 	switch (action.type) {
+		//Create new todo
 		case 'CREATE_TODO':
 			var newState =  {
 				...state,
@@ -13,9 +16,9 @@ function reducer(state = initialState, action) {
 					...state.todos, { text: action.text, finished:false, id: Date.now() }
 				]
 			};
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Chaneg todo state from finished to unfinished and vice versa
 		case 'CHANGE_TODO_STATE':
 			var newState = {
 				...state,
@@ -26,9 +29,9 @@ function reducer(state = initialState, action) {
 			newState.todos.forEach(function(todo) {
 				if (todo.id == action.id) todo.finished = !todo.finished;
 			});
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Delete todo
 		case 'DELETE_TODO':
 			var newState = {
 				...state,
@@ -41,9 +44,9 @@ function reducer(state = initialState, action) {
 					newState.todos.splice(i, 1);
 				}
 			}
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Update todo text
 		case 'SAVE_TODO':
 			var newState = {
 				...state,
@@ -54,25 +57,26 @@ function reducer(state = initialState, action) {
 			newState.todos.forEach(function(todo) {
 				if (todo.id == action.id) todo.text = action.text;
 			});
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Add action history
 		case 'ADD_HISTORY':
 			var newState = {...state};
 			newState.history = [...newState.history, {id: Date.now(), text: action.text, description: action.description }]
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Clear action history
 		case "CLEAR_HISTORY":
 			var newState = {...state};
 			newState.history = [];
-			//setCookie("state", JSON.stringify(newState), 10);
 			return newState;
 			break;
+		//Load initial state data
 		case "LOAD_INITIAL_DATA":
 			var newState = {...state};
 			newState = action.data;
 			return newState;
+		//Default
 		default:
 			return state;
 			break;

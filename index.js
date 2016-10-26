@@ -86,10 +86,16 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//Load store from reducers and middlewares
 	var store = (0, _redux.createStore)(_reducer2.default, (0, _redux.applyMiddleware)(_DataMiddleware2.default));
+	//load initial Data
+	/*Main entry point for react*/
 	var data = new _Data2.default();
 	var savedData = data.loadData();
+	//Dispatch initial data
 	if (savedData != false) store.dispatch({ type: "LOAD_INITIAL_DATA", data: savedData });
+
+	//Render React
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
 		{ store: store },
@@ -21496,8 +21502,10 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*App component*/
 
+
+	/*base component to render todo list*/
 	var App = function (_React$Component) {
 	   _inherits(App, _React$Component);
 
@@ -21549,7 +21557,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*TodoList component*/
+
 
 	var TodoList = function (_React$Component) {
 		_inherits(TodoList, _React$Component);
@@ -21563,11 +21572,15 @@
 		_createClass(TodoList, [{
 			key: 'render',
 			value: function render() {
+				//create array of Todo components from array of todos
+				//and calculate how many todos are left
 				var todoComponents;
 				var todoLeft = 0;
 				if (this.props.todos != undefined) {
 					todoComponents = this.props.todos.todos.map(function (todo) {
+						//Set css class if todo is finished
 						var finished = todo.finished ? "checked" : "";
+						//count unfinished todos
 						if (!todo.finished) todoLeft++;
 						return _react2.default.createElement(_Todo2.default, { finished: finished, key: todo.id, item: todo });
 					});
@@ -21653,7 +21666,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*Todo component*/
+
 
 	var Todo = function (_React$Component) {
 		_inherits(Todo, _React$Component);
@@ -21666,20 +21680,27 @@
 
 		_createClass(Todo, [{
 			key: 'changeTodoState',
+
+			//change todo status from finished to unfinished and vice versa
 			value: function changeTodoState() {
 				this.props.dispatch({ type: 'CHANGE_TODO_STATE', id: this.props.item.id });
+				//add change to action history
 				var description = this.props.item.text.concat(this.props.item.finished ? " - finished" : " - not finished");
 				this.props.dispatch({ type: "ADD_HISTORY", text: "Change todo state", description: description });
 			}
+			//Delete todo from list
+
 		}, {
 			key: 'deleteTodo',
 			value: function deleteTodo() {
 				this.props.dispatch({ type: 'DELETE_TODO', id: this.props.item.id });
+				//add deletion to action history
 				this.props.dispatch({ type: "ADD_HISTORY", text: "Delete todo", description: this.props.item.text });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				//set inline style for edit button
 				var editButtonStype = {
 					marginRight: '10px'
 				};
@@ -28886,11 +28907,13 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*NewTodo component*/
+
 
 	var NewTodo = function (_React$Component) {
 		_inherits(NewTodo, _React$Component);
 
+		//Set initial todo if not exist
 		function NewTodo() {
 			_classCallCheck(this, NewTodo);
 
@@ -28899,6 +28922,9 @@
 			_this.todo = { text: "", id: -1, finished: false };
 			return _this;
 		}
+		//Check if component is for new todo or updating todo text
+		//and change button and input value accordingly
+
 
 		_createClass(NewTodo, [{
 			key: 'componentWillMount',
@@ -28914,6 +28940,7 @@
 					(function () {
 						var todoId = parseInt(_this2.currentPath.substring(_this2.currentPath.indexOf('todos/') + 6));
 						_this2.button_label = "Save";
+						//Try to get current todo for editing
 						currentTodo = null;
 
 						_this2.props.todos.forEach(function (todo) {
@@ -28921,10 +28948,13 @@
 								currentTodo = todo;
 							}
 						});
+						//If current todo not found return to base url
 						if (currentTodo == null) _this2.props.router.push(window.base_url + '/');else _this2.todo = currentTodo;
 					})();
 				}
 			}
+			//Run button accroding to action type
+
 		}, {
 			key: 'executeButton',
 			value: function executeButton() {
@@ -28934,27 +28964,37 @@
 					this.saveTodo();
 				}
 			}
+			//Update todo text
+
 		}, {
 			key: 'saveTodo',
 			value: function saveTodo() {
 				var todo = _extends({}, this.todo, { text: this.refs.addTodo.value });
 				this.props.dispatch({ type: "SAVE_TODO", text: todo.text, id: todo.id });
+				//Add update to action history
 				this.props.dispatch({ type: "ADD_HISTORY", text: "Update Todo text", description: todo.text });
 				this.props.router.push(window.base_url + '/');
 			}
+			//Add new todo
+
 		}, {
 			key: 'addTodo',
 			value: function addTodo() {
 				var todo = _extends({}, this.todo, { text: this.refs.addTodo.value });
 				this.props.dispatch({ type: "CREATE_TODO", text: todo.text });
+				//Add addition to action history
 				this.props.dispatch({ type: "ADD_HISTORY", text: "Add Todo", description: todo.text });
 				this.props.router.push(window.base_url + '/');
 			}
+			//Execute button if ENTER is pressed in input
+
 		}, {
 			key: 'onKeyPressInput',
 			value: function onKeyPressInput(e) {
 				if (e.key === 'Enter') this.executeButton();
 			}
+			//Go back to base url
+
 		}, {
 			key: 'goBack',
 			value: function goBack() {
@@ -29026,7 +29066,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*ActionHistoryList component*/
+
 
 	var ActionHistoryList = function (_React$Component) {
 		_inherits(ActionHistoryList, _React$Component);
@@ -29039,9 +29080,13 @@
 
 		_createClass(ActionHistoryList, [{
 			key: 'goBack',
+
+			//Retrun to base url
 			value: function goBack() {
 				this.props.router.push(window.base_url + '/');
 			}
+			//Clear history
+
 		}, {
 			key: 'clearHistory',
 			value: function clearHistory() {
@@ -29050,9 +29095,11 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				//create array of ActionHistory components from array of Action history
 				var actionComponent = this.props.historyList.map(function (action) {
 					return _react2.default.createElement(_ActionHistory2.default, { key: action.id, action: action });
 				});
+				//Inline style for clear button
 				var clearButtonStype = {
 					marginRight: '10px'
 				};
@@ -29164,8 +29211,10 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*ActionHistory component*/
 
+
+	//update Date function to add rendering from timestamp to dd/mm/yyyy
 	Date.prototype.ddmmyyyy = function () {
 	  var mm = this.getMonth() + 1; // getMonth() is zero-based
 	  var dd = this.getDate();
@@ -29237,24 +29286,27 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+	//Set initial state if no state is loaded
 	var initialState = {
 		todos: [],
 		history: []
 	};
 
+	//Reducer function for Redux
 	function reducer() {
 		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 		var action = arguments[1];
 
 
 		switch (action.type) {
+			//Create new todo
 			case 'CREATE_TODO':
 				var newState = _extends({}, state, {
 					todos: [].concat(_toConsumableArray(state.todos), [{ text: action.text, finished: false, id: Date.now() }])
 				});
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Chaneg todo state from finished to unfinished and vice versa
 			case 'CHANGE_TODO_STATE':
 				var newState = _extends({}, state, {
 					todos: [].concat(_toConsumableArray(state.todos))
@@ -29262,9 +29314,9 @@
 				newState.todos.forEach(function (todo) {
 					if (todo.id == action.id) todo.finished = !todo.finished;
 				});
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Delete todo
 			case 'DELETE_TODO':
 				var newState = _extends({}, state, {
 					todos: [].concat(_toConsumableArray(state.todos))
@@ -29274,9 +29326,9 @@
 						newState.todos.splice(i, 1);
 					}
 				}
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Update todo text
 			case 'SAVE_TODO':
 				var newState = _extends({}, state, {
 					todos: [].concat(_toConsumableArray(state.todos))
@@ -29284,25 +29336,26 @@
 				newState.todos.forEach(function (todo) {
 					if (todo.id == action.id) todo.text = action.text;
 				});
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Add action history
 			case 'ADD_HISTORY':
 				var newState = _extends({}, state);
 				newState.history = [].concat(_toConsumableArray(newState.history), [{ id: Date.now(), text: action.text, description: action.description }]);
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Clear action history
 			case "CLEAR_HISTORY":
 				var newState = _extends({}, state);
 				newState.history = [];
-				//setCookie("state", JSON.stringify(newState), 10);
 				return newState;
 				break;
+			//Load initial state data
 			case "LOAD_INITIAL_DATA":
 				var newState = _extends({}, state);
 				newState = action.data;
 				return newState;
+			//Default
 			default:
 				return state;
 				break;
@@ -29325,6 +29378,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/*Data class to load state from cookie*/
 	var Data = function () {
 		function Data() {
 			_classCallCheck(this, Data);
@@ -29332,6 +29386,9 @@
 
 		_createClass(Data, [{
 			key: 'getCookie',
+
+
+			//Get cookie by cookie name
 			value: function getCookie(cname) {
 				var name = cname + "=";
 				var ca = document.cookie.split(';');
@@ -29346,6 +29403,10 @@
 				}
 				return null;
 			}
+
+			//Load state from cookie
+			//return false if no cookie exist
+
 		}, {
 			key: 'loadData',
 			value: function loadData() {
@@ -29368,6 +29429,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	/*middleware for saving state to cookie*/
 	var DataMiddleware = function DataMiddleware(store) {
 		return function (next) {
 			return function (action) {
@@ -29380,6 +29442,7 @@
 		};
 	};
 
+	//Set cookie according to cookie name, value and expiry date
 	function setCookie(cname, cvalue, exdays) {
 		var d = new Date();
 		d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
